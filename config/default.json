@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://ahsan123:ahsan123@cluster0-tcyvu.mongodb.net/test?retryWrites=true&w=majority",
+  "PrivateKey": "PrivateKey"
+}
