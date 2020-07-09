@@ -1,0 +1,180 @@
+* {
+  font-family: "Raleway", sans-serif;
+  font-weight: 500;
+}
+
+html {
+  height: 100%;
+}
+
+#main {
+  padding: 30px;
+}
+
+.form-md {
+  padding: 10px 0px;
+}
+
+.form-md .form-group {
+  width: 340px;
+}
+
+.form-md .form-group label {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.89em;
+}
+
+.form-md .form-group input:focus {
+  outline: none;
+  border: 2px solid #895575;
+  transition: 0.1s;
+  box-shadow: none;
+}
+
+.form-md .input-group-prepend span {
+  background-color: white;
+  color: black;
+  border: none;
+  font-weight: 700;
+  font-size: 1.3em;
+  padding: 0px 5px;
+}
+
+.form-md .btn-one {
+  background-color: #895575;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+.form-md .btn-one:hover {
+  background-color: #895575;
+  opacity: 0.8;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1em;
+  letter-spacing: 0.02em;
+  transition: 0.2s;
+}
+
+.form-md .form-input-switch {
+  font-size: 0.93em;
+
+  background-color: lightgrey;
+  outline: none;
+  border: none;
+  padding: 10px 25px;
+  color: #342d50;
+  font-weight: 300;
+  text-transform: uppercase;
+}
+
+.form-md .form-input-switch:hover {
+  background-color: darkgrey;
+  transition: 0.2s;
+}
+
+.form-md .form-input-switch:focus {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+.form-md .section {
+  padding-right: 30px;
+}
+
+.form-md .section h4 {
+  color: #342d50;
+  font-size: 2.4em;
+}
+
+.sort-bar {
+  border-bottom: 1px solid #342d50;
+  padding: 5px 10px;
+}
+
+.sort-bar select {
+  margin: 0px 10px;
+  font-size: 14px;
+}
+.sort-bar .text {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.product-card {
+  width: 25%;
+  padding: 40px;
+}
+
+.card-content {
+  width: 100%;
+  text-align: center;
+}
+
+.card-title a {
+  color: black;
+  margin: 0;
+  padding: 2px 0 0 0;
+  font-size: 1.4em;
+  display: block;
+}
+
+.card-title:hover a {
+  color: black;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+
+  -webkit-transition: 0.2; /* For Safari 3.0 to 6.0 */
+  transition: 0.2s; /* For modern browsers */
+}
+
+.product-card .card-desc {
+  color: black;
+  margin: 0;
+  padding: 0;
+  letter-spacing: -0.025em;
+  display: block;
+}
+
+.product-card .card-add-btn .btn {
+  background-color: black;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card .page-tab-group {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  -webkit-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.75);
+}
+
+.page-tab-group .btn {
+  background-color: #232526;
+  color: white;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  -webkit-transition: 0.4; /* For Safari 3.0 to 6.0 */
+  transition: 0.4s; /* For modern browsers */
+}
+
+.page-tab-group .btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.page-tab-group .btn:hover {
+  background-color: #414345;
+}
+
+.page-tab-group .active {
+  background-color: #414345;
+}
