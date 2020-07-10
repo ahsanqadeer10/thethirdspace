@@ -19,7 +19,6 @@ import ViewShop from "./components/views/Shop/ViewShop";
 
 import AddProduct from "./components/views/Product/AddProduct";
 
-import MyShop from "./components/views/Shop/MyShop";
 import MyProduct from "./components/views/Product/MyProduct";
 
 import ViewProducts from "./components/views/Product/ViewProducts";
@@ -58,9 +57,10 @@ const App = () => {
 
               <VendorOnlyRoute
                 exact
-                path='/my-shop/products/:id'
+                path='/my-profile/my-shop/products/:id'
                 component={MyProduct}
               />
+
               <Route exact path='/shops' component={ViewShops} />
               <Route exact path='/shops/:name' component={ViewShop} />
 

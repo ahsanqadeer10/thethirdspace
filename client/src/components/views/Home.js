@@ -5,15 +5,19 @@ import ProductGrid from "../ProductGrid";
 function Home() {
   return (
     <Fragment>
-      <h4 className='display-5'>
-        Welcome to <strong>The Third Space</strong>
-      </h4>
-      <div className='d-flex flex-row justify-content-center'>
-        <h4 className='display-5'>Featured Products</h4>
+      <div className='home-image'>
+        <img
+          src='https://images.unsplash.com/photo-1560464024-54e00d373791?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80'
+          alt='home-image'
+        ></img>
+        <div className='centered'>
+          <h3 className='display-3'>The Third Space</h3>
+          <Link to='/products' type='button' className='btn btn-light'>
+            Start Shopping!
+          </Link>
+        </div>
       </div>
-      <div className='d-flex flex-row'>
-        <ProductGrid />
-      </div>
+      <div></div>
     </Fragment>
   );
 }

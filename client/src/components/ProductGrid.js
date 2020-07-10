@@ -7,14 +7,13 @@ import Spinner from "./Spinner";
 const ProductGrid = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState("random");
 
   useEffect(() => {
     const source = axios.CancelToken.source();
 
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/products/", {
+        const response = await axios.get("/api/products", {
           cancelToken: source.token,
         });
 

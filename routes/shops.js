@@ -11,12 +11,12 @@ const { Product } = require("../models/product");
 
 // SET STORAGE
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "./uploads");
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.fieldname + "-" + Date.now());
-  }
+  },
 });
 
 var upload = multer({
@@ -32,7 +32,7 @@ var upload = multer({
       cb(null, false);
       return cb(new Error("Only .png, .jpg and .jpeg format allowed!"));
     }
-  }
+  },
 });
 
 // READ MY SHOP
@@ -47,10 +47,7 @@ router.get("/my-shop", checkToken, async (req, res) => {
         .send({ errors: { invalid: "Authorization denied." } });
     }
 
-    // const vendor = await Vendor.findById(userId)
-    //   .populate("shop")
-    //   .select("-_id shop");
-    const vendor = await Vendor.findById(userId).select("shop");
+    const vendor = await Vendor.findOne({ user: userId }).select("shop");
     const shop = await Shop.findById(vendor.shop).populate("products");
 
     if (!shop) {
@@ -110,7 +107,7 @@ router.put(
           .send("You do not have access to this information.");
       }
 
-      const vendor = await Vendor.findById(req.headers["x-auth-id"])
+      const vendor = await User.findOne({ user: req.headers["x-auth-id"] })
         .populate("shop")
         .select("shop");
 
@@ -126,7 +123,7 @@ router.put(
           shop = {
             name: req.body.shopName,
             description: req.body.shopDescription,
-            address: req.body.shopAddress
+            address: req.body.shopAddress,
           };
           if (req.file) {
             var image = req.file;
@@ -134,7 +131,7 @@ router.put(
             image = fs.readFileSync(filePath);
             var finalImage = {
               contentType: req.file.mimetype,
-              data: image
+              data: image,
             };
             shop.image = finalImage;
           }
@@ -142,7 +139,7 @@ router.put(
             req.params.id,
             shop,
             { new: true },
-            function(err, updatedShop) {
+            function (err, updatedShop) {
               if (err) {
                 return res
                   .status(500)
@@ -170,9 +167,9 @@ router.delete("/:id/delete-logo", checkToken, async (req, res, next) => {
         .send("You do not have access to this information.");
     }
 
-    const vendor = await Vendor.findById(req.headers["x-auth-id"]).select(
-      "shop"
-    );
+    const vendor = await Vendor.findOne({
+      user: req.headers["x-auth-id"],
+    }).select("shop");
 
     if (!vendor.shop.equals(req.params.id)) {
       return res.status(401).send("Authorization Denied.");
@@ -181,7 +178,7 @@ router.delete("/:id/delete-logo", checkToken, async (req, res, next) => {
         req.params.id,
         { image: null },
         { new: true },
-        function(err, updatedShop) {
+        function (err, updatedShop) {
           if (err) {
             return res
               .status(500)
@@ -211,9 +208,17 @@ router.post(
           .send("You do not have access to this information.");
       }
 
-      const vendor = await Vendor.findById(req.headers["x-auth-id"])
+      const vendor = await Vendor.findOne({ user: req.headers["x-auth-id"] })
         .populate("shop")
         .select("shop");
+
+      if (!vendor) {
+        return res
+          .status(401)
+          .send(
+            "Oops. Something went wrong. We could not find the user. Refresh the page or try logging in again :("
+          );
+      }
 
       if (!vendor.shop._id.equals(req.params.id)) {
         return res.status(401).send("Authorization Denied.");
@@ -221,13 +226,13 @@ router.post(
         var product = new Product({
           shop: {
             id: vendor.shop._id,
-            name: vendor.shop.name
+            name: vendor.shop.name,
           },
           name: req.body.name,
           description: req.body.description,
           price: req.body.price,
           stock: req.body.stock,
-          images: []
+          images: [],
         });
 
         if (req.files) {
@@ -238,7 +243,7 @@ router.post(
             image = fs.readFileSync(filePath);
             var finalImage = {
               contentType: req.files[i].mimetype,
-              data: image
+              data: image,
             };
             images.push(finalImage);
           }

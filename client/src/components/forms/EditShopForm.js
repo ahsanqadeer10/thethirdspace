@@ -5,13 +5,13 @@ import {
   displayValidationErrors,
   clearValidationErrors,
   displayResponseErrors,
-  clearResponseErrors
+  clearResponseErrors,
 } from "../../utils/ErrorHandler";
 import { Context } from "../../Store";
 import defaultLogo from "../../images/logo.png";
 import axios from "axios";
 
-const EditShopForm = props => {
+const EditShopForm = (props) => {
   const [state, dispatch] = useContext(Context);
   const [previewImage, setPreviewImage] = useState(props.shop.image);
   const [validationErrors, setValidationErrors] = useState({});
@@ -19,7 +19,7 @@ const EditShopForm = props => {
   const resetFormFields = () => {
     var inputs = document.getElementsByTagName("input");
     for (var i = 0; i < inputs.length; i++) {
-      if (inputs[i].type.toLowerCase() == "text") {
+      if (inputs[i].type.toLowerCase() === "text") {
         inputs[i].value = inputs[i].defaultValue;
       }
     }
@@ -30,7 +30,7 @@ const EditShopForm = props => {
     var imageInput = (document.getElementById("inputShopImage").value = "");
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
@@ -41,7 +41,7 @@ const EditShopForm = props => {
     var errors = validateShop({
       shopName: formData.get("shopName"),
       shopDescription: formData.get("shopDescription"),
-      shopAddress: formData.get("shopAddress")
+      shopAddress: formData.get("shopAddress"),
     });
     if (Object.keys(errors).length > 0) {
       // display errors;
@@ -54,8 +54,8 @@ const EditShopForm = props => {
             "content-type": "multipart/form-data",
             "x-auth-token": state.user.token,
             "x-auth-id": state.user.id,
-            "x-auth-type": state.user.type
-          }
+            "x-auth-type": state.user.type,
+          },
         };
         const response = await axios.put(
           `/api/shops/${props.shop._id}`,
@@ -75,8 +75,8 @@ const EditShopForm = props => {
         headers: {
           "x-auth-token": state.user.token,
           "x-auth-id": state.user.id,
-          "x-auth-type": state.user.type
-        }
+          "x-auth-type": state.user.type,
+        },
       };
       const response = await axios.delete(
         `/api/shops/${props.shop._id}/delete-logo`,
@@ -96,7 +96,7 @@ const EditShopForm = props => {
           class='custom-file-input'
           id='inputShopImage'
           name='shopImage'
-          onChange={e => {
+          onChange={(e) => {
             setPreviewImage(URL.createObjectURL(e.target.files[0]));
           }}
         ></input>
@@ -112,7 +112,7 @@ const EditShopForm = props => {
       <form
         noValidate
         encType='multipart/form-data'
-        onSubmit={e => onSubmit(e)}
+        onSubmit={(e) => onSubmit(e)}
       >
         <div className='d-flex flex-row flex-wrap'>
           <div className='p-2' style={{ width: "300px" }}>

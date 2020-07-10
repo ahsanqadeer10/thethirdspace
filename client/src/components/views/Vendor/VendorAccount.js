@@ -22,8 +22,8 @@ const VendorAccount = () => {
             "x-auth-token": state.user.token,
             "x-auth-id": state.user.id,
             "x-auth-type": state.user.type,
-            cancelToken: source.token
-          }
+            cancelToken: source.token,
+          },
         };
         const response = await axios.get("/api/vendors/", config);
         var fetchedAccount = response.data.user;
@@ -68,9 +68,8 @@ const VendorAccount = () => {
     };
   }, ["/api/vendors/"]);
 
-  const switchTab = e => {
-    var elements = document.getElementsByClassName("page-tab-group")[0]
-      .children;
+  const switchTab = (e) => {
+    var elements = document.getElementsByClassName("profile-tabs")[0].children;
     for (var i = 0; i < elements.length; i++) {
       if (elements[i].name === currentTab) {
         elements[i].classList.remove("active");
@@ -90,58 +89,52 @@ const VendorAccount = () => {
         <div>NO ACCOUNT FOUND!</div>
       ) : (
         <Fragment>
-          {/* <div className='d-flex flex-row flex-wrap text-center page-tab-row'>
-            <div className='p-2 flex-fill'>SHOP</div>
-            <div className='p-2 flex-fill'>SETTINGS</div>
-          </div> */}
-          <div className='d-flex flex-column'>
-            <div
-              className='btn-group page-tab-group'
-              role='group'
-              aria-label='Basic example'
-            >
-              <button
-                type='button'
-                className='btn active'
-                name='shop'
-                onClick={e => {
-                  switchTab(e);
-                }}
-              >
-                Shop
-              </button>
-              <button
-                type='button'
-                className='btn'
-                name='orders'
-                onClick={e => {
-                  switchTab(e);
-                }}
-              >
-                Orders
-              </button>
-              <button
-                type='button'
-                class='btn'
-                name='settings'
-                onClick={e => {
-                  switchTab(e);
-                }}
-              >
-                Settings
-              </button>
+          <div id='vendor-acc' className='d-flex flex-row'>
+            <div className='sidebar'>
+              <div className='profile-tabs btn-group-vertical'>
+                <button
+                  type='button'
+                  className='btn active'
+                  name='shop'
+                  onClick={(e) => {
+                    switchTab(e);
+                  }}
+                >
+                  Shop
+                </button>
+                <button
+                  type='button'
+                  className='btn'
+                  name='orders'
+                  onClick={(e) => {
+                    switchTab(e);
+                  }}
+                >
+                  Orders
+                </button>
+                <button
+                  type='button'
+                  class='btn'
+                  name='settings'
+                  onClick={(e) => {
+                    switchTab(e);
+                  }}
+                >
+                  Settings
+                </button>
+              </div>
             </div>
-          </div>
-          <div>
-            {currentTab === "shop" ? (
-              <MyShop shop={account.shop} />
-            ) : currentTab === "orders" ? (
-              "ORDERS"
-            ) : currentTab === "settings" ? (
-              "SETTINGS"
-            ) : (
-              "No Content"
-            )}
+            <div className='current-tab'>
+              {currentTab === "shop" ? (
+                <MyShop shop={account.shop} />
+              ) : currentTab === "orders" ? (
+                "ORDERS"
+              ) : currentTab === "settings" ? (
+                "SETTINGS"
+              ) : (
+                "No Content"
+              )}
+            </div>
           </div>
         </Fragment>
       )}

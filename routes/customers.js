@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const customer = await Customer.findById(req.query.id).select("-password");
+    const customer = await User.findOne({ user: req.query.id });
 
     if (!customer) {
       console.log("User no longer registered.");

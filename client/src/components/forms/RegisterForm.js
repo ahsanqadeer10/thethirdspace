@@ -54,10 +54,15 @@ const RegisterForm = (props) => {
     }
   };
 
-  const formBox = {
-    width: "300px",
-    padding: "0 10px",
-  };
+  function togglePassword() {
+    console.log("togglePassword");
+    var x = document.getElementById("inputPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 
   return (
     <Fragment>
@@ -72,7 +77,7 @@ const RegisterForm = (props) => {
           <label htmlFor='inputName'>Name</label>
           <input
             type='text'
-            className='form-control input-md'
+            className='form-control form-control-sm'
             id='inputName'
             name='name'
             value={formData.name}
@@ -90,7 +95,7 @@ const RegisterForm = (props) => {
             </div>
             <input
               type='number'
-              className='form-control'
+              className='form-control form-control-sm'
               id='inputPhone'
               name='phone'
               value={formData.phone}
@@ -103,7 +108,7 @@ const RegisterForm = (props) => {
           <label htmlFor='inputEmail'>Email</label>
           <input
             type='email'
-            className='form-control'
+            className='form-control form-control-sm'
             id='inputEmail'
             name='email'
             value={formData.email}
@@ -115,12 +120,22 @@ const RegisterForm = (props) => {
           <label htmlFor='inputPassword'>Password</label>
           <input
             type='password'
-            className='form-control'
+            className='form-control form-control-sm'
             id='inputPassword'
             name='password'
             value={formData.password}
             onChange={(e) => onChange(e)}
           ></input>
+        </div>
+        <div class='form-group'>
+          <input
+            type='checkbox'
+            onClick={() => togglePassword()}
+            value='Show Password'
+            id='togglePassword'
+            style={{ marginRight: "10px" }}
+          />
+          <p style={{ display: "inline" }}>Show Password</p>
         </div>
 
         <div className='form-group'>

@@ -8,7 +8,6 @@ const GuestCheckout = () => {
   const [state, dispatch] = useContext(Context);
 
   const [cartItems, setCartItems] = useState([]);
-  const [cartSize, setCartSize] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const GuestCheckout = () => {
         state.cart.products.forEach((product) => {
           productIds = [...productIds, product.id];
         });
-        const response = await axios.get("/api/products/", {
+        const response = await axios.get("/api/products", {
           params: {
             filter: true,
             productIds: productIds,
@@ -31,7 +30,7 @@ const GuestCheckout = () => {
         var fetchedCartItems = [];
         state.cart.products.forEach((product) => {
           var object = fetchedCartProducts.filter((obj) => {
-            return obj._id == product.id;
+            return obj._id === product.id;
           });
           fetchedCartItems = [
             ...fetchedCartItems,

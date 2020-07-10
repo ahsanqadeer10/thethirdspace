@@ -8,6 +8,7 @@ const fs = require("fs");
 
 const { Vendor } = require("../models/vendor");
 const { Shop } = require("../models/shop");
+const { User } = require("../models/user");
 
 const checkToken = require("../middleware/checkToken");
 
@@ -49,11 +50,16 @@ router.post("/", async (req, res, next) => {
       shopAddress,
     } = req.body;
 
-    var vendor = await Vendor.findOne({ phone: phone });
-    if (vendor) {
-      return res
-        .status(400)
-        .send("The phone number is already registered as a vendor.");
+    var user = await User.findOne({ phone: phone });
+    var vendor = null;
+    var shop = null;
+    if (user) {
+      vendor = await Vendor.findOne({ user: user._id });
+      if (vendor) {
+        return res
+          .status(400)
+          .send("The phone number is already registered as a vendor.");
+      }
     }
     var shop = await Shop.findOne({ name: shopName });
     if (shop) {
@@ -70,24 +76,30 @@ router.post("/", async (req, res, next) => {
       products: [],
     });
 
+    if (!user) {
+      user = new User({
+        name: name,
+        phone: phone,
+        password: password,
+      });
+    }
     vendor = new Vendor({
-      name: name,
-      phone: phone,
-      password: password,
+      user: user._id,
       shop: shop._id,
     });
 
     const salt = await bcrypt.genSalt(10);
-    vendor.password = await bcrypt.hash(vendor.password, salt);
+    user.password = await bcrypt.hash(user.password, salt);
 
     await shop.save();
+    await user.save();
     await vendor.save();
 
-    const token = jwt.sign({ _id: vendor._id }, config.get("PrivateKey"));
+    const token = jwt.sign({ _id: user._id }, config.get("PrivateKey"));
 
     res.header("x-auth-token", token).send({
       user: {
-        id: vendor._id,
+        id: user._id,
         type: "vendor",
       },
     });
@@ -105,14 +117,12 @@ router.get("/", checkToken, async (req, res, next) => {
         .send("You do not have access to this information.");
     }
 
-    const vendor = await Vendor.findById(req.headers["x-auth-id"])
-      .select("-password")
-      .populate({
-        path: "shop",
-        populate: { path: "products" },
-      });
-
-    console.log(vendor);
+    const vendor = await Vendor.findOne({
+      user: req.headers["x-auth-id"],
+    }).populate({
+      path: "shop",
+      populate: { path: "products" },
+    });
 
     if (!vendor) {
       return res.status(404).send("The user could not be found.");

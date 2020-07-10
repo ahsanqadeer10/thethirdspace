@@ -61,13 +61,40 @@ const MyProduct = (props) => {
           "content-type": "multipart/form-data",
           "x-auth-token": state.user.token,
           "x-auth-id": state.user.id,
+          "x-auth-type": state.user.type,
         },
       };
       const response = await axios.delete(
         "/api/products/" + product._id + "/delete",
         config
       );
-      window.location.href = "/my-shop/";
+      window.location.href = "/my-profile/";
+    } catch (error) {
+      setLoading(false);
+      console.log(error.response.data.errors);
+    }
+  };
+
+  const changeQty = async (e) => {
+    setLoading(true);
+    var newQty = document.getElementById("productQuantity").value;
+    try {
+      const config = {
+        headers: {
+          "x-auth-token": state.user.token,
+          "x-auth-id": state.user.id,
+          "x-auth-type": state.user.type,
+        },
+      };
+      const body = {
+        newQty: newQty,
+      };
+      const response = await axios.put(
+        "/api/products/" + product._id + "/update",
+        body,
+        config
+      );
+      window.location.reload();
     } catch (error) {
       setLoading(false);
       console.log(error.response.data.errors);
@@ -83,71 +110,161 @@ const MyProduct = (props) => {
       ) : (
         <div>
           <div style={{ width: "33%" }}>
-            {product.images ? (
+            {product.images.length > 0 ? (
               <ProductImageCarousel width='200px' images={product.images} />
             ) : (
               "No images"
             )}
           </div>
-          <div>{product.name}</div>
-          <button
-            type='button'
-            className='btn btn-danger'
-            data-toggle='modal'
-            data-target='#deleteProductModal'
-          >
-            Delete
-          </button>
-          <div
-            className='modal fade'
-            id='deleteProductModal'
-            tabindex='-1'
-            role='dialog'
-            aria-labelledby='deleteProductModalLabel'
-            aria-hidden='true'
-          >
-            <div className='modal-dialog' role='document'>
-              <div className='modal-content'>
-                <div className='modal-header'>
-                  <h5 className='modal-title' id='deleteProductModalLabel'>
-                    Confirmation
-                  </h5>
-                  <button
-                    type='button'
-                    className='close'
-                    data-dismiss='modal'
-                    aria-label='Close'
-                  >
-                    <span aria-hidden='true'>&times;</span>
-                  </button>
+          <div className='d-flex flex-column'>
+            <div className='p-2'>
+              <strong>Name: </strong>
+              {product.name}
+            </div>
+            <div className='p-2'>
+              <strong>Description: </strong>
+              {product.description}
+            </div>
+            <div className='p-2'>
+              <strong>Price: </strong>
+              {product.price}
+            </div>
+            <div className='p-2'>
+              <strong>Quantity in Stock: </strong>
+              {product.stock}
+            </div>
+          </div>
+          <div className='d-flex flex-row'>
+            <div className='p-2'>
+              {" "}
+              <button
+                type='button'
+                className='btn btn-info'
+                data-toggle='modal'
+                data-target='#changeQtyModal'
+              >
+                Change Product Quantity
+              </button>
+              <div
+                className='modal fade'
+                id='changeQtyModal'
+                tabindex='-1'
+                role='dialog'
+                aria-labelledby='deleteProductModalLabel'
+                aria-hidden='true'
+              >
+                <div className='modal-dialog' role='document'>
+                  <div className='modal-content'>
+                    <div className='modal-header'>
+                      <h5 className='modal-title' id='changeQtyModalLabel'>
+                        Change Product Quantity
+                      </h5>
+                      <button
+                        type='button'
+                        className='close'
+                        data-dismiss='modal'
+                        aria-label='Close'
+                      >
+                        <span aria-hidden='true'>&times;</span>
+                      </button>
+                    </div>
+                    <div className='modal-body'>
+                      <div className='d-flex flex-row'>
+                        <div className='p-2'>
+                          Change {product.name} Quantity
+                        </div>
+
+                        <div className='p-2'>
+                          <input
+                            type='number'
+                            name='productQty'
+                            id='productQuantity'
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className='modal-footer'>
+                      <button
+                        type='button'
+                        className='btn btn-secondary'
+                        data-dismiss='modal'
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type='button'
+                        className='btn btn-danger'
+                        onClick={(e) => {
+                          changeQty(e);
+                        }}
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className='modal-body'>
-                  Are you sure you want to delete {product.name}?
-                </div>
-                <div className='modal-footer'>
-                  <button
-                    type='button'
-                    className='btn btn-secondary'
-                    data-dismiss='modal'
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type='button'
-                    className='btn btn-danger'
-                    onClick={(e) => {
-                      deleteProduct(e);
-                    }}
-                  >
-                    Yes
-                  </button>
+              </div>
+            </div>
+
+            <div className='p-2'>
+              {" "}
+              <button
+                type='button'
+                className='btn btn-danger'
+                data-toggle='modal'
+                data-target='#deleteProductModal'
+              >
+                Delete
+              </button>
+              <div
+                className='modal fade'
+                id='deleteProductModal'
+                tabindex='-1'
+                role='dialog'
+                aria-labelledby='deleteProductModalLabel'
+                aria-hidden='true'
+              >
+                <div className='modal-dialog' role='document'>
+                  <div className='modal-content'>
+                    <div className='modal-header'>
+                      <h5 className='modal-title' id='deleteProductModalLabel'>
+                        Confirmation
+                      </h5>
+                      <button
+                        type='button'
+                        className='close'
+                        data-dismiss='modal'
+                        aria-label='Close'
+                      >
+                        <span aria-hidden='true'>&times;</span>
+                      </button>
+                    </div>
+                    <div className='modal-body'>
+                      Are you sure you want to delete {product.name}?
+                    </div>
+                    <div className='modal-footer'>
+                      <button
+                        type='button'
+                        className='btn btn-secondary'
+                        data-dismiss='modal'
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type='button'
+                        className='btn btn-danger'
+                        onClick={(e) => {
+                          deleteProduct(e);
+                        }}
+                      >
+                        Yes
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <button type='button' className='btn btn-light'>
-            Edit
-          </button>
         </div>
       )}
     </Fragment>

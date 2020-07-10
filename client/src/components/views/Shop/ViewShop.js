@@ -3,7 +3,7 @@ import Spinner from "../../Spinner";
 import arrayBufferToBase64 from "../../../utils/bufferToBase64";
 import axios from "axios";
 
-const ViewShop = props => {
+const ViewShop = (props) => {
   const [shop, setShop] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ const ViewShop = props => {
         const response = await axios.get(
           "/api/shops/" + props.match.params.name,
           {
-            cancelToken: source.token
+            cancelToken: source.token,
           }
         );
         const fetchedShop = response.data.shop;
@@ -65,10 +65,15 @@ const ViewShop = props => {
         <div>Sorry. Shop not found.</div>
       ) : (
         <div>
-          <div>{shop.name}</div>
-          <div>{shop.description}</div>
           <div>
             <img src={shop.image}></img>
+          </div>
+          <div>
+            <strong>Shop Name: </strong>
+            {shop.name}
+          </div>
+          <div>
+            <strong>Shop Description: </strong> {shop.description}
           </div>
         </div>
       )}

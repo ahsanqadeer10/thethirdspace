@@ -67,6 +67,16 @@ function VendorForm() {
     }
   };
 
+  function togglePassword() {
+    console.log("togglePassword");
+    var x = document.getElementById("inputPassword");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+
   return (
     <Fragment>
       <form onSubmit={(e) => onSubmit(e)} noValidate className='form-md'>
@@ -77,7 +87,7 @@ function VendorForm() {
               <label htmlFor='inputName'>Your Name</label>
               <input
                 type='text'
-                className='form-control'
+                className='form-control form-control-sm'
                 id='inputName'
                 name='name'
                 value={formData.name}
@@ -94,7 +104,7 @@ function VendorForm() {
                 </div>
                 <input
                   type='number'
-                  className='form-control'
+                  className='form-control form-control-sm'
                   id='inputPhone'
                   name='phone'
                   aria-describedby='basic-addon1'
@@ -107,7 +117,7 @@ function VendorForm() {
               <label htmlFor='inputPassword'>Password</label>
               <input
                 type='password'
-                className='form-control'
+                className='form-control form-control-sm'
                 id='inputPassword'
                 name='password'
                 value={formData.password}
@@ -117,6 +127,16 @@ function VendorForm() {
                 Password should be atleast 8 characters long.
               </p>
             </div>
+            <div class='form-group'>
+              <input
+                type='checkbox'
+                onClick={() => togglePassword()}
+                value='Show Password'
+                id='togglePassword'
+                style={{ marginRight: "10px" }}
+              />
+              <p style={{ display: "inline" }}>Show Password</p>
+            </div>
           </div>
 
           <div className='section'>
@@ -125,7 +145,7 @@ function VendorForm() {
               <label htmlFor='inputShopName'>Shop Name</label>
               <input
                 type='text'
-                className='form-control'
+                className='form-control form-control-sm'
                 id='inputShopName'
                 name='shopName'
                 value={formData.shopName}
@@ -133,10 +153,10 @@ function VendorForm() {
               ></input>
             </div>
             <div className='form-group'>
-              <label htmlFor='inputShopDesc'>Shop Description</label>
+              <label htmlFor='inputShopDesc'>Short Description</label>
               <input
                 type='text'
-                className='form-control'
+                className='form-control form-control-sm'
                 id='inputShopDesc'
                 name='shopDescription'
                 value={formData.shopDescription}
@@ -147,7 +167,7 @@ function VendorForm() {
               <label htmlFor='inputShopAddress'>Address</label>
               <input
                 type='text'
-                className='form-control'
+                className='form-control form-control-sm'
                 id='inputShopAddress'
                 name='shopAddress'
                 value={formData.shopAddress}

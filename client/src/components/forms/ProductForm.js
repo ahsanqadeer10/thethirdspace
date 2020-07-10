@@ -7,14 +7,14 @@ import {
   displayValidationErrors,
   clearValidationErrors,
   displayResponseErrors,
-  clearResponseErrors
+  clearResponseErrors,
 } from "../../utils/ErrorHandler";
 
-const ProductForm = props => {
+const ProductForm = (props) => {
   const [state, dispatch] = useContext(Context);
   const [validationErrors, setValidationErrors] = useState({});
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     clearValidationErrors(validationErrors);
     clearResponseErrors();
@@ -26,7 +26,7 @@ const ProductForm = props => {
       name: formData.get("name"),
       description: formData.get("description"),
       price: formData.get("price"),
-      stock: formData.get("stock")
+      stock: formData.get("stock"),
     });
     if (Object.keys(errors).length > 0) {
       // display errors
@@ -39,8 +39,8 @@ const ProductForm = props => {
             "content-type": "multipart/form-data",
             "x-auth-token": state.user.token,
             "x-auth-id": state.user.id,
-            "x-auth-type": state.user.type
-          }
+            "x-auth-type": state.user.type,
+          },
         };
         const response = await axios.post(
           `/api/shops/${props.shop._id}/products/`,
@@ -58,7 +58,7 @@ const ProductForm = props => {
   return (
     <Fragment>
       <form
-        onSubmit={e => onSubmit(e)}
+        onSubmit={(e) => onSubmit(e)}
         noValidate
         encType='multipart/form-data'
       >
@@ -98,17 +98,20 @@ const ProductForm = props => {
             name='stock'
           ></input>
         </div>
-        <div className='custom-file'>
-          <input
-            type='file'
-            multiple='multiple'
-            id='inputImages'
-            className='form-control custom-file-input'
-            name='images'
-          />
-          <label htmlFor='inputImages' class='custom-file-label'>
-            Upload Images
-          </label>
+        <div className='form-group'>
+          {" "}
+          <div className='custom-file'>
+            <input
+              type='file'
+              multiple='multiple'
+              id='inputImages'
+              className='form-control custom-file-input'
+              name='images'
+            />
+            <label htmlFor='inputImages' class='custom-file-label'>
+              Upload Images
+            </label>
+          </div>
         </div>
         <div className='form-group'>
           <Link to='/my-profile' className='btn btn-danger'>

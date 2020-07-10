@@ -23,36 +23,36 @@ function Cart() {
 
   return (
     <Fragment>
-      <Link data-toggle='modal' data-target='#cartModal'>
+      <a data-toggle='modal' data-target='#cartModal'>
         <i className='fas fa-shopping-cart fa-lg'></i>{" "}
-      </Link>
+      </a>
 
       <div
-        class='modal fade'
+        className='modal fade'
         id='cartModal'
-        tabindex='-1'
+        tabIndex='-1'
         role='dialog'
         aria-labelledby='cartModalTitle'
         aria-hidden='true'
       >
         <div
-          class='modal-dialog modal-dialog-scrollable modal-dialog-centered'
+          className='modal-dialog modal-dialog-scrollable modal-dialog-centered'
           role='document'
         >
           <div
-            class='modal-content d-flex flex-column'
+            className='modal-content d-flex flex-column'
             style={{ height: "60%" }}
           >
             <div className='d-flex flex-row'>
               <div>
-                <h5 class='modal-title' id='cartModalTitle'>
+                <h5 className='modal-title' id='cartModalTitle'>
                   MY CART
                 </h5>
               </div>
               <div className='ml-auto'>
                 <button
                   type='button'
-                  class='close'
+                  className='close'
                   data-dismiss='modal'
                   aria-label='Close'
                 >
@@ -62,18 +62,17 @@ function Cart() {
             </div>
 
             <div>
-              {cartItems.length > 0
-                ? cartItems.map((item, index) => (
-                    <CartItem
-                      key={index}
-                      item={item}
-                      removeItemFromCart={removeItemFromCart}
-                    />
-                  ))
-                : "No Items in Cart!"}
-              <div className='d-flex flex-row'>
-                <a href='/checkout'>Checkout</a>
-              </div>
+              <ul className='list-group'>
+                {cartItems.length > 0
+                  ? cartItems.map((item, index) => (
+                      <CartItem
+                        key={index}
+                        item={item}
+                        removeItemFromCart={removeItemFromCart}
+                      />
+                    ))
+                  : "No Items in Cart!"}
+              </ul>
             </div>
 
             <div className='mt-auto'>

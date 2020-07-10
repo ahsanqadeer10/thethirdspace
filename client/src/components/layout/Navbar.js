@@ -7,7 +7,6 @@ import ttsLogo from "../../images/ttslogo.png";
 
 const Navbar = (props) => {
   const [state, dispatch] = useContext(Context);
-  const [showCart, setShowCart] = useState(false);
 
   const logout = async (e) => {
     e.preventDefault();
@@ -46,7 +45,7 @@ const Navbar = (props) => {
       <li>
         <NavLink to='/my-profile'>
           {" "}
-          <i class='far fa-user fa-lg'></i>
+          <i className='far fa-user fa-lg'></i>
         </NavLink>
       </li>
       <li>
@@ -62,7 +61,7 @@ const Navbar = (props) => {
       <li>
         <NavLink to='/my-profile'>
           {" "}
-          <i class='far fa-user fa-lg'></i>
+          <i className='far fa-user fa-lg'></i>
         </NavLink>
       </li>
       <li>
@@ -118,7 +117,7 @@ const Navbar = (props) => {
         <div className='d-flex flex-column'>
           <div className='align-self-end'>
             <Link to='#' className={styles.closeBtn} onClick={closeSidebar}>
-              <i class='fas fa-times fa-2x'></i>
+              <i className='fas fa-times fa-2x'></i>
             </Link>
           </div>
           <div>
@@ -145,13 +144,13 @@ const Navbar = (props) => {
         >
           <div className='d-flex align-items-center'>
             <div>
-              <Link className={styles.sidebarBtn} onClick={openSidebar}>
-                <i class='fas fa-bars fa-lg' aria-hidden='true'></i>
-              </Link>
+              <a className={styles.sidebarBtn} onClick={openSidebar}>
+                <i className='fas fa-bars fa-lg' aria-hidden='true'></i>
+              </a>
             </div>
             <div>
               <NavLink to='/' className={styles.logo}>
-                <img src={ttsLogo}></img>
+                <img src={ttsLogo} alt='TTS Logo'></img>
               </NavLink>
             </div>
           </div>

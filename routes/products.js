@@ -69,13 +69,17 @@ router.get("/:id/view", async (req, res) => {
 
 router.delete("/:id/delete", checkToken, async (req, res, next) => {
   try {
-    const vendor = await Vendor.findById(req.headers["x-auth-id"]).select(
-      "shop"
-    );
+    const allowedTypes = ["vendor", "admin"];
+    if (!allowedTypes.includes(req.headers["x-auth-type"])) {
+      return res
+        .status(403)
+        .send("You do not have access to this information.");
+    }
+
+    const vendor = await Vendor.findOne({
+      user: req.headers["x-auth-id"],
+    }).select("shop");
     const product = await Product.findById(req.params.id);
-    console.log(vendor, product);
-    console.log("vendor shop: ", vendor.shop);
-    console.log("product shop: ", product.shop.id);
     if (!vendor || !product) {
       res.status(400).send({
         errors: {
@@ -98,6 +102,51 @@ router.delete("/:id/delete", checkToken, async (req, res, next) => {
           res.send();
         }
       });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+router.put("/:id/update", checkToken, async (req, res, next) => {
+  try {
+    const allowedTypes = ["vendor", "admin"];
+    if (!allowedTypes.includes(req.headers["x-auth-type"])) {
+      return res
+        .status(403)
+        .send("You do not have access to this information.");
+    }
+
+    const vendor = await Vendor.findOne({
+      user: req.headers["x-auth-id"],
+    }).select("shop");
+    const product = await Product.findById(req.params.id);
+    if (!vendor || !product) {
+      res.status(400).send({
+        errors: {
+          invalid: "Unauthorized",
+        },
+      });
+    } else if (!vendor.shop.equals(product.shop.id)) {
+      res.status(400).send({
+        errors: {
+          invalid: "Unauthorized",
+        },
+      });
+    } else {
+      Product.findById(req.params.id, function (err, product) {
+        if (!err) {
+          product.stock = req.body.newQty;
+          product.save(function (err, product) {
+            if (err) {
+              console.log(err);
+              return;
+            }
+          });
+        }
+      });
+      res.send();
     }
   } catch (error) {
     console.log(error.message);

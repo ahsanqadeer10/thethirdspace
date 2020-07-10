@@ -10,7 +10,7 @@ function MyAccount() {
 
   return (
     <Fragment>
-      {state[0].user.type == "vendor" ? (
+      {state[0].user.type === "vendor" ? (
         <VendorOnlyRoute component={VendorAccount} />
       ) : (
         <PrivateRoute component={CustomerAccount} />
